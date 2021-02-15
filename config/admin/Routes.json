@@ -1,0 +1,25 @@
+{
+	"meta": {
+		"icon": "lock",
+		"title": "权限管理"
+	},
+	"name": "permission",
+	"path": "/permission",
+	"children": [{
+		"meta": {
+			"title": "角色管理"
+		},
+		"name": "role",
+		"path": "role",
+		"component": "/permission/role"
+	}, {
+		"meta": {
+			"title": "帐户管理"
+		},
+		"name": "account",
+		"path": "account",
+		"component": "/permission/account"
+	}],
+	"redirect": "/permission/page",
+	"component": "Layout"
+}
