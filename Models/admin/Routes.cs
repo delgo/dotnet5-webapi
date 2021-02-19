@@ -15,6 +15,7 @@ namespace webapi.Models.admin
     public string[] roles { get; set; }
     public string title { get; set; }
     public string affix { get; set; }
+    public bool hidden { get; set; }
   }
 
   public class Children
