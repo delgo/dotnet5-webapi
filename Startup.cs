@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -143,7 +144,8 @@ namespace webapi
               ValidateIssuer = false,// 验证秘钥发行人，如果要验证在这里指定发行人字符串即可
               ValidateActor = false,
               ValidateLifetime = true,// token有效期
-              IssuerSigningKey = UsersController.SecurityKey
+              RequireExpirationTime = false,//是否Claims必须包含Expires过期时间
+              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AuthSettings").GetSection("Key").Value))
             };
       });
     }

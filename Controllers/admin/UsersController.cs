@@ -1,4 +1,6 @@
 using System;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
@@ -24,20 +26,21 @@ namespace webapi.Controllers.admin
   public class UsersController : ControllerBase
   {
     public static JwtSecurityTokenHandler JwtTokenHandler = new JwtSecurityTokenHandler();
-    public static SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Guid.NewGuid().ToByteArray());
     private readonly ApplicationDbContext db;
     private IUserService _userService;
     private IRolesService _rolesService;
     private IMapper _mapper;
     private IActionContextAccessor _accessor;
     private readonly ILogger<UsersController> _logger;
+    private IConfiguration _configuration;
     public UsersController(
       ApplicationDbContext dbContext,
       ILogger<UsersController> logger,
       IUserService userService,
       IRolesService rolesService,
       IMapper mapper,
-      IActionContextAccessor httpContextAccessor)
+      IActionContextAccessor httpContextAccessor,
+      IConfiguration configuration)
     {
       db = dbContext;
       _logger = logger;
@@ -45,6 +48,7 @@ namespace webapi.Controllers.admin
       _rolesService = rolesService;
       _mapper = mapper;
       _accessor = httpContextAccessor;
+      _configuration = configuration;
     }
 
     /// <summary>
@@ -64,6 +68,7 @@ namespace webapi.Controllers.admin
       if (user == null) return BadRequest(new { Message = "用户名或密码错误" });
       if (!user.status) return BadRequest(new { Message = "该用户被禁用，请联系管理员" });
 
+      var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AuthSettings").GetSection("Key").Value));
       var claims = new[] { new Claim(ClaimTypes.Name, user.userName), new Claim(ClaimTypes.Role, user.userType) };
       var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
       var token = new JwtSecurityToken("WebAPIServer", "WebAPIClients", claims, expires: DateTime.Now.AddDays(1), signingCredentials: credentials);
