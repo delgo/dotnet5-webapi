@@ -115,12 +115,24 @@ namespace webapi
         {
           OnTokenValidated = async context =>
           {
-            var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
             var name = context.Principal.Identity.Name;
-            var user = await userService.GetByNameAysnc(name);
-            if (user == null)
+            if (context.Principal.IsInRole("App"))
             {
-              context.Fail("Unauthorized");
+              var appUserService = context.HttpContext.RequestServices.GetRequiredService<webapi.Services.IAppUsersService>();
+              var appUser = await appUserService.GetByPhoneNumberAsync(name);
+              if (appUser == null)
+              {
+                context.Fail("App Unauthorized");
+              }
+            }
+            else
+            {
+              var userService = context.HttpContext.RequestServices.GetRequiredService<webapi.Services.admin.IUserService>();
+              var user = await userService.GetByNameAysnc(name);
+              if (user == null)
+              {
+                context.Fail("Admin Unauthorized");
+              }
             }
           }
         };
