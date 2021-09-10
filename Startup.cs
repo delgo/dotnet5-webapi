@@ -40,7 +40,11 @@ namespace webapi
         options.AddPolicy("policy",
         builder =>
         {
-          builder.WithOrigins(Configuration.GetSection("CorsUrl").Value);
+          builder.WithOrigins(Configuration.GetSection("CorsUrl").Value)
+          .SetIsOriginAllowedToAllowWildcardSubdomains()
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowCredentials();
         });
       });
 
