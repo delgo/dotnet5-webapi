@@ -12,11 +12,11 @@ namespace webapi.Services.admin
 {
   public interface IRolesService
   {
-    Task<Admin_roles> GetByIdAysnc(int id);
-    Task<List<Admin_roles>> GetAllAysnc();
-    Task<Admin_roles> CreateAysnc(Admin_roles role);
-    Task DeleteAysnc(int id);
-    Task<Admin_roles> UpdateAysnc(Admin_roles roleParam);
+    Task<Admin_roles> GetByIdAsync(int id);
+    Task<List<Admin_roles>> GetAllAsync();
+    Task<Admin_roles> CreateAsync(Admin_roles role);
+    Task DeleteAsync(int id);
+    Task<Admin_roles> UpdateAsync(Admin_roles roleParam);
   }
 
   public class RolesService : IRolesService
@@ -28,14 +28,14 @@ namespace webapi.Services.admin
       _context = context;
       _configuration = configuration;
     }
-    public Task<Admin_roles> GetByIdAysnc(int id)
+    public Task<Admin_roles> GetByIdAsync(int id)
     {
       return Task.Run(() =>
       {
         return _context.admin_roles.Find(id);
       });
     }
-    public Task<List<Admin_roles>> GetAllAysnc()
+    public Task<List<Admin_roles>> GetAllAsync()
     {
       return Task.Run(_context.admin_roles.ToList);
     }
@@ -46,7 +46,7 @@ namespace webapi.Services.admin
     //     return _configuration.GetSection("AdminRouter").Get<Routes[]>();
     //   });
     // }
-    public Task<Admin_roles> CreateAysnc(Admin_roles role)
+    public Task<Admin_roles> CreateAsync(Admin_roles role)
     {
       return Task.Run(() =>
       {
@@ -64,7 +64,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task DeleteAysnc(int id)
+    public Task DeleteAsync(int id)
     {
       return Task.Run(() =>
       {
@@ -77,7 +77,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task<Admin_roles> UpdateAysnc(Admin_roles roleParam)
+    public Task<Admin_roles> UpdateAsync(Admin_roles roleParam)
     {
       return Task.Run(() =>
       {

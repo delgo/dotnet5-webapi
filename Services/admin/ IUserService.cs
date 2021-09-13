@@ -11,15 +11,15 @@ namespace webapi.Services.admin
 {
   public interface IUserService
   {
-    Task<Admin_users> AuthenticateAysnc(string username, string password);
-    Task<List<Admin_users>> GetAllAysnc(int page, int limit);
-    Task<int> GetAllTotalAysnc();
-    Task<Admin_users> GetByIdAysnc(int id);
-    Task<Admin_users> GetByNameAysnc(string name);
-    Task<Admin_users> CreateAysnc(Admin_users user, string password);
-    Task UpdateAysnc(Admin_users userParam, string password = null);
-    Task DeleteAysnc(int id);
-    Task<Admin_users> GetByUserNameAysnc(string username);
+    Task<Admin_users> AuthenticateAsync(string username, string password);
+    Task<List<Admin_users>> GetAllAsync(int page, int limit);
+    Task<int> GetAllTotalAsync();
+    Task<Admin_users> GetByIdAsync(int id);
+    Task<Admin_users> GetByNameAsync(string name);
+    Task<Admin_users> CreateAsync(Admin_users user, string password);
+    Task UpdateAsync(Admin_users userParam, string password = null);
+    Task DeleteAsync(int id);
+    Task<Admin_users> GetByUserNameAsync(string username);
   }
 
   public class UserService : IUserService
@@ -31,7 +31,7 @@ namespace webapi.Services.admin
       _context = context;
     }
 
-    public Task<Admin_users> AuthenticateAysnc(string username, string password)
+    public Task<Admin_users> AuthenticateAsync(string username, string password)
     {
 
       return Task.Run(() =>
@@ -49,7 +49,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task<Admin_users> CreateAysnc(Admin_users user, string password)
+    public Task<Admin_users> CreateAsync(Admin_users user, string password)
     {
       return Task.Run(() =>
       {
@@ -70,7 +70,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task DeleteAysnc(int id)
+    public Task DeleteAsync(int id)
     {
       return Task.Run(() =>
       {
@@ -82,7 +82,7 @@ namespace webapi.Services.admin
         }
       });
     }
-    public Task<List<Admin_users>> GetAllAysnc(int page, int limit)
+    public Task<List<Admin_users>> GetAllAsync(int page, int limit)
     {
       return Task<Admin_users>.Run(() =>
       {
@@ -90,11 +90,11 @@ namespace webapi.Services.admin
         return list;
       });
     }
-    public Task<int> GetAllTotalAysnc()
+    public Task<int> GetAllTotalAsync()
     {
       return Task<Admin_users>.Run(_context.admin_users.Count);
     }
-    public Task<Admin_users> GetByIdAysnc(int id)
+    public Task<Admin_users> GetByIdAsync(int id)
     {
       return Task.Run(() =>
       {
@@ -102,7 +102,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task<Admin_users> GetByUserNameAysnc(string username)
+    public Task<Admin_users> GetByUserNameAsync(string username)
     {
       return Task.Run(() =>
       {
@@ -110,7 +110,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task<Admin_users> GetByNameAysnc(string name)
+    public Task<Admin_users> GetByNameAsync(string name)
     {
       return Task.Run(() =>
       {
@@ -118,7 +118,7 @@ namespace webapi.Services.admin
       });
     }
 
-    public Task UpdateAysnc(Admin_users userParam, string password = null)
+    public Task UpdateAsync(Admin_users userParam, string password = null)
     {
       return Task.Run(() =>
       {

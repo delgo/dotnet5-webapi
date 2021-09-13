@@ -133,7 +133,7 @@ namespace webapi
             else
             {
               var userService = context.HttpContext.RequestServices.GetRequiredService<webapi.Services.admin.IUserService>();
-              var user = await userService.GetByNameAysnc(name);
+              var user = await userService.GetByNameAsync(name);
               if (user == null)
               {
                 context.Fail("Admin Unauthorized");

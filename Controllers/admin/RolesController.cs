@@ -51,7 +51,7 @@ namespace webapi.Controllers.admin
     public async Task<IActionResult> GetRolesList()
     {
       _logger.LogInformation($"GetRolesList");
-      var roles = await _rolesService.GetAllAysnc();
+      var roles = await _rolesService.GetAllAsync();
       return Ok(new
       {
         code = 20000,
@@ -67,7 +67,7 @@ namespace webapi.Controllers.admin
       roleParam.updateTime = (Int32)DateTimeOffset.Now.ToUnixTimeSeconds();
       try
       {
-        var _role = await _rolesService.CreateAysnc(roleParam);
+        var _role = await _rolesService.CreateAsync(roleParam);
         return Ok(new
         {
           code = 20000,
@@ -84,7 +84,7 @@ namespace webapi.Controllers.admin
     public async Task<IActionResult> Delete(int id)
     {
       _logger.LogInformation($"Delete {id}");
-      await _rolesService.DeleteAysnc(id);
+      await _rolesService.DeleteAsync(id);
       return Ok(new
       {
         code = 20000,
@@ -99,7 +99,7 @@ namespace webapi.Controllers.admin
       var role = _mapper.Map<Admin_roles>(roleParam);
       try
       {
-        var res = await _rolesService.UpdateAysnc(role);
+        var res = await _rolesService.UpdateAsync(role);
         return Ok(
           new
           {

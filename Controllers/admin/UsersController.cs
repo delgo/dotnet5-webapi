@@ -63,7 +63,7 @@ namespace webapi.Controllers.admin
     {
       _logger.LogInformation($"Authenticate {userDto.userName}@{userDto.password}");
 
-      var user = await _userService.AuthenticateAysnc(userDto.userName, userDto.password);
+      var user = await _userService.AuthenticateAsync(userDto.userName, userDto.password);
 
       if (user == null) return BadRequest(new { Message = "用户名或密码错误" });
       if (!user.status) return BadRequest(new { Message = "该用户被禁用，请联系管理员" });
@@ -95,10 +95,10 @@ namespace webapi.Controllers.admin
     {
       var username = Response.HttpContext.User.Identity.Name;//获取当前登陆的用户名对应new Claim(ClaimTypes.Name, user.UserName)
       _logger.LogInformation($"GetByUserName {username}");
-      var user = await _userService.GetByUserNameAysnc(username);
+      var user = await _userService.GetByUserNameAsync(username);
       var userDto = _mapper.Map<UsersDto>(user);
-      _logger.LogInformation($"GetRolesByIdAysnc {userDto.id}");
-      var roles = await _rolesService.GetByIdAysnc(userDto.roleId);
+      _logger.LogInformation($"GetRolesByIdAsync {userDto.id}");
+      var roles = await _rolesService.GetByIdAsync(userDto.roleId);
 
       var jsonRoutes = JsonConvert.DeserializeObject<Routes[]>(roles.routes);
       var jsonRoleKey = roles.roleKey;
@@ -134,7 +134,7 @@ namespace webapi.Controllers.admin
         user.userType = "Admin";
         user.createTime = (Int32)DateTimeOffset.Now.ToUnixTimeSeconds();
         user.updateTime = (Int32)DateTimeOffset.Now.ToUnixTimeSeconds();
-        var _user = await _userService.CreateAysnc(user, userDto.password);
+        var _user = await _userService.CreateAsync(user, userDto.password);
         return Ok(new
         {
           code = 20000,
@@ -160,7 +160,7 @@ namespace webapi.Controllers.admin
       user.id = userDto.id;
       try
       {
-        await _userService.UpdateAysnc(user, userDto.password);
+        await _userService.UpdateAsync(user, userDto.password);
         return Ok(new
         {
           code = 20000,
@@ -180,9 +180,9 @@ namespace webapi.Controllers.admin
     public async Task<IActionResult> getUsersList(int page, int limit)
     {
       _logger.LogInformation($"GetAll");
-      var users = await _userService.GetAllAysnc(page, limit);
+      var users = await _userService.GetAllAsync(page, limit);
       var userDtos = _mapper.Map<List<UsersDto>>(users);
-      var total = await _userService.GetAllTotalAysnc();
+      var total = await _userService.GetAllTotalAsync();
       return Ok(new
       {
         code = 20000,
@@ -194,7 +194,7 @@ namespace webapi.Controllers.admin
     public async Task<IActionResult> GetById(int id)
     {
       _logger.LogInformation($"GetById {id}");
-      var user = await _userService.GetByIdAysnc(id);
+      var user = await _userService.GetByIdAsync(id);
       var userDto = _mapper.Map<UsersDto>(user);
       return Ok(userDto);
     }
@@ -207,7 +207,7 @@ namespace webapi.Controllers.admin
       user.id = id;
       try
       {
-        await _userService.UpdateAysnc(user, userDto.password);
+        await _userService.UpdateAsync(user, userDto.password);
         return Ok();
       }
       catch (AppException ex)
@@ -220,7 +220,7 @@ namespace webapi.Controllers.admin
     public async Task<IActionResult> deleteUser(int id)
     {
       _logger.LogInformation($"Delete {id}");
-      await _userService.DeleteAysnc(id);
+      await _userService.DeleteAsync(id);
       return Ok(new
       {
         code = 20000,
