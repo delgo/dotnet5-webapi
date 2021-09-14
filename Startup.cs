@@ -15,11 +15,10 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using webapi.Controllers.admin;
 using webapi.Helpers;
 using webapi.Helpers.admin;
 using webapi.Services.admin;
-using webapi.Models.admin;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace webapi
 {
@@ -46,6 +45,12 @@ namespace webapi
           .AllowAnyMethod()
           .AllowCredentials();
         });
+      });
+
+      // If using Kestrel:允许同步读取IO流
+      services.Configure<KestrelServerOptions>(options =>
+      {
+        options.AllowSynchronousIO = true;
       });
 
       //数据库链接mysql
