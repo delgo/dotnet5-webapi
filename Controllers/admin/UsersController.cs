@@ -22,6 +22,7 @@ namespace webapi.Controllers.admin
 {
   [Authorize(Roles = "Admin")]
   [Route("api/[controller]/[action]")]
+  [EnableCors("policy")]
   [ApiController]
   public class UsersController : ControllerBase
   {
@@ -58,7 +59,7 @@ namespace webapi.Controllers.admin
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost]
-    [EnableCors("policy")]
+
     public async Task<IActionResult> Authenticate(UsersDto userDto)
     {
       _logger.LogInformation($"Authenticate {userDto.userName}@{userDto.password}");

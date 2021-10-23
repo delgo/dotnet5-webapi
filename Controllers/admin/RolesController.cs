@@ -24,6 +24,7 @@ namespace webapi.Controllers.admin
 {
   [Authorize(Roles = "Admin")]
   [Route("api/[controller]/[action]")]
+  [EnableCors("policy")]
   [ApiController]
   public class RolesController : ControllerBase
   {
